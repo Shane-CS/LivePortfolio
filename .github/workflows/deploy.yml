@@ -1,0 +1,21 @@
+name: Continuos Deployment
+on:
+  push:
+    branches: [master]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1.
+      - uses: actions/checkout@v2        
+
+      # 2.
+      - name: Rsync Deployments Action
+        uses: Burnett01/rsync-deployments@5.2
+        with:
+          switches: -avzr --delete
+          path: /
+          remote_path: /home/user/html/
+          remote_host: www.shanestock.dev
+          remote_user: root
+          remote_key: ${{ secrets.UNRIAD_NGINX_SSH_PRIVKEY }}
